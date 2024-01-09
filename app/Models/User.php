@@ -23,6 +23,7 @@ class User extends Authenticatable
         'password',
     ];
 
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -42,4 +43,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+
+     /**
+     * belongsToMany Relations
+     */
+      /**
+     * The donations the users made.
+     */
+    public function donations()
+    {
+        return $this->belongsToMany(Donation::class,'users_donations', 'user_id', 'donation_id')
+        ->using(UserDonation::class);
+    }
 }
