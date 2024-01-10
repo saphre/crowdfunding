@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('additional_ressources')->nullable(); // Extra ressources like more pictures, videos etc
             $table->enum('type',['self','others']);
             $table->string('target_amount'); 
-            $table->string('contributed_amount');
+            $table->string('contributed_amount')->default('0');
             $table->boolean('is_complete')->default(false); // Checks if target set is reached.
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
