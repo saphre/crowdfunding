@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
             CategorySeeder::class,
             CurrencySeeder::class,
             UserSeeder::class,
+            DonationSeeder::class,
+            UserDonationSeeder::class,
         ]);
     }
 }

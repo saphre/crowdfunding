@@ -55,6 +55,7 @@ class User extends Authenticatable
     public function donations()
     {
         return $this->belongsToMany(Donation::class,'users_donations', 'user_id', 'donation_id')
-        ->using(UserDonation::class);
+        ->using(UserDonation::class)
+        ->withPivot('is_initiator', 'amount_contributed', 'created_at','updated_at');;
     }
 }

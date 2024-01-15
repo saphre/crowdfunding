@@ -21,9 +21,7 @@ use Illuminate\Support\Facades\Route;
 //Route::get('/user', function (Request $request) { return $request->user(); });
 
 //LOGIN
-Route::post('/auth/login', [App\Http\Controllers\AuthController::class, 'login'])->name('login');
-// SIGNUP
-Route::post('/auth/register/patient', [App\Http\Controllers\AuthController::class, 'register'])->name('register');
+Route::post('/auth/login', [App\Http\Controllers\AuthController::class, 'login'])->name('api_login');
 // PROTECTED ROUTES - Auth
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [App\Http\Controllers\AuthController::class, 'logout']);
@@ -33,27 +31,26 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 // PROTECTED ROUTES - HTTP VERBS
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    // SIGNUP
-    Route::post('/auth/register/patient', [App\Http\Controllers\AuthController::class, 'register'])->middleware('valid.token')->name('register');
+    //  Donate
+    Route::post('/donation/donate', [App\Http\Controllers\DonationController::class,'donate']);
+    Route::get('/donations/my-donations/{id}', [App\Http\Controllers\DonationController::class,'myDonations']);
+    
 });
 
 // PROTECTED ROUTES - Resources
 Route::group(['middleware' => 'auth:sanctum'], function () {
     /**
-     *      COMPANIES
+     *      DONATIONS
      */
-
     Route::apiResource('donations', 'App\Http\Controllers\DonationController');
-
     /**
-     *  Health Care Unit Types
+     *      CATEGORIES
      */
-
-    Route::apiResource('hcu_types', 'App\Http\Controllers\HealthCareUnitTypeController');
-
+    Route::apiResource('categories', 'App\Http\Controllers\CategoryController');
     /**
-     *  Health Care Units
+     *      CURRENCIES
      */
+    Route::apiResource('currencies', 'App\Http\Controllers\CurrencyController');
 
-    Route::apiResource('hcus', 'App\Http\Controllers\HealthCareUnitController');
+    
 });

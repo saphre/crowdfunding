@@ -3,9 +3,9 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceCollection;
+use Illuminate\Http\Resources\Json\JsonResource;
 
-class CategoryCollection extends ResourceCollection
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource collection into an array.
@@ -18,6 +18,8 @@ class CategoryCollection extends ResourceCollection
             'id' => (string)$this->id,
             'attributes' => [
                 'name' => $this->name,
+                'email' => $this->email,
+                'password' => $this->password,
                 'created_at' => $this->created_at, 
             ],
             'relationships' => [

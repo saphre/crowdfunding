@@ -24,7 +24,6 @@ class StoreUserDonationRequest extends FormRequest
         return [
             'user_id' => 'required',
             'donation_id' => 'required',
-            'is_initiator' => 'required',
             'amount_contributed' => 'nullable|string',
         ];
     }

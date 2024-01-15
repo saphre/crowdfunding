@@ -21,5 +21,26 @@ class UserSeeder extends Seeder
             'created_at' => now(),
             'updated_at' => now()
         ]);
+        User::create([
+            'name' => "Jane Doe",
+            "email" => "jane@crowdfunding.com",
+            "password" => Hash::make("Admin@4202"),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        User::create([
+            'name' => "Jannette Doe",
+            "email" => "jannette@crowdfunding.com",
+            "password" => Hash::make("Admin@4202"),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
+        User::create([
+            'name' => "Sam Doe",
+            "email" => "sam@crowdfunding.com",
+            "password" => Hash::make("Admin@4202"),
+            'created_at' => now(),
+            'updated_at' => now()
+        ]);
     }
 }

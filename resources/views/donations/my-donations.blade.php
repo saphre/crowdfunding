@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Crowd Funding</title>
+    <title>Donations</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Styles -->
     <style>
@@ -836,31 +836,22 @@
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
         @if (Route::has('login'))
-            <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                @if (session()->exists(0))
-                    <a href="{{ route('home') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
-                    <a href="{{ route('my_donations') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">My
-                        Donations</a>
-                    <a href="{{ route('donation.create') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Create
-                        Donation</a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
-                        in</a>
+                <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+                    @if(session()->exists(0))
+                        <a href="{{ route('home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
+                        <a href="{{ route('my_donations') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">My Donations</a>
+                        <a href="{{ route('donation.create') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Create Donation</a>
+                    @else
+                        <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        @if (Route::has('register'))
+                            <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
+                        @endif
+
                     @endif
-
-                @endif
-                <a href="{{ route('donations') }}"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Donate</a>
-            </div>
-        @endif
+                    <a href="{{ route('donations') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Donate</a>
+                </div>
+            @endif
 
         <div class="max-w-7xl mx-auto p-6 lg:p-8">
             <div class="flex justify-center">
@@ -871,13 +862,29 @@
                         fill="#FF2D20" />
                 </svg>
             </div>
+            @if (session('donation_update_successful'))
+                <div class="text-success">
+                    {!! session('donation_update_successful') !!}
+                </div>
+            @endif
+            @if (session('donation_delete_successful'))
+                <div class="text-success">
+                    {!! session('donation_delete_successful') !!}
+                </div>
+            @endif
+            @if (session('donation_delete_error'))
+                <div class="text-danger">
+                    {!! session('donation_delete_error') !!}
+                </div>
+            @endif
 
             <div class="mt-16">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                    @foreach ($donations as $donation)
-                        <a href="/donation/{{ $donation->id }}"
+                    @foreach ($donation_data as $donation)
+                        <div
                             class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
                             <div>
+                                
                                 <img src="{{ $donation->attributes->donation_img }}" alt="Donation Image">
 
                                 <div
@@ -893,26 +900,68 @@
                                 <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
                                     {{ $donation->attributes->title }}
                                 </h2>
-                                <?php $result = ($donation->attributes->contributed_amount / $donation->attributes->target_amount) * 100;
-                                ?>
+                                @php $result = ($donation->attributes->contributed_amount / $donation->attributes->target_amount) * 100;
+                                @endphp
                                 <div class="progress mb-4 mt-5" role="progressbar" aria-label="Example 1px high"
                                     aria-valuenow="{{ $result }}" aria-valuemin="0" aria-valuemax="100"
                                     style="height: 1px">
                                     <div class="progress-bar" style="width: {{ $result }}%"></div>
                                 </div>
-                                <p class="card-text mb-4"><small
-                                        class="fw-medium">{{ $donation->relationships->currency->symbol }}
+                                <p class="card-text mb-4"><small class="fw-medium"> {{$donation->relationships->currency->symbol}}
                                         {{ $donation->attributes->contributed_amount }} /
                                         {{ $donation->attributes->target_amount }} gathered</small></p>
-
-                                <button type="button" class="btn btn-outline-success">View</button>
+                                @if ($donation->attributes->total_contributions == 0)
+                                <p class="card-text"> You have not yet contributed to this donation</p>
+                                @elseif($donation->attributes->total_contributions == 1)
+                                <p class="card-text"> You have contributed once to this donation</p>
+                                @else
+                                <p class="card-text"> You have contributed {{$donation->attributes->total_contributions}} times to this donation</p>
+                                @endif
+                                
+                                {{-- Accordion --}}
+                                <div class="accordion mb-3" id="contributionListing{{$donation->id}}">
+                                    <div class="accordion-item">
+                                      <h2 class="accordion-header">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{$donation->id}}" aria-expanded="true" aria-controls="collapse{{$donation->id}}">
+                                            Contribution Listings
+                                        </button>
+                                      </h2>
+                                      <div id="collapse{{$donation->id}}" class="accordion-collapse collapse " data-bs-parent="#contributionListing{{$donation->id}}">
+                                        <div class="accordion-body">
+                                            <ul class="list-group">
+                                                @foreach ($donation->attributes->contribution_details as $contribution)
+                                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                                        @php $contribution_date = date("d/m/Y", strtotime($contribution->pivot->created_at));@endphp
+                                                            {{$contribution_date}}
+                                                            <span
+                                                            class="badge bg-success rounded-pill">{{$donation->relationships->currency->symbol}}
+                                                            {{$contribution->pivot->amount_contributed}}</span>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                      </div>
+                                    </div>
+                                </div>
+                                <a class="btn btn-outline-success"
+                                    href="/donation/{{ $donation->id }}"
+                                    role="button">View</a>
+                                <a class="btn btn-outline-warning"
+                                    href="/donation/{{ $donation->id }}/edit"
+                                    role="button">Edit</a>
+                                    <form action="{{route('donation.destroy',$donation->id) }}" method="POST">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-danger mt-3">Delete</button>
+                                    </form>
+                                
                             </div>
-                        </a>
+                        </div>
                     @endforeach
                 </div>
-                <a class="btn btn-success mt-5 container" href="{{route('donations')}}" role="button">View All</a>
             </div>
         </div>
+    </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">

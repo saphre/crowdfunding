@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Donation extends Model
 {
@@ -64,10 +65,11 @@ class Donation extends Model
       /**
      * The donations that were made by the users.
      */
-    public function users()
+    public function users():BelongsToMany
     {
         return $this->belongsToMany(User::class,'users_donations', 'donation_id', 'user_id')
-        ->using(UserDonation::class);
+        ->using(UserDonation::class)
+        ->withPivot('is_initiator', 'amount_contributed', 'created_at','updated_at');
     }
 
   

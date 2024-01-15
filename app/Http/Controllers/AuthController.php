@@ -23,7 +23,7 @@ class AuthController extends Controller
       /**
      * Login The User
      * @param Request $request
-     * @return User
+     * @return Array
      */
     public function login(Request $request)
     {

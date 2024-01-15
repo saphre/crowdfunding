@@ -1,19 +1,14 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Crowd Funding</title>
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>View Donation</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
-    <!-- Styles -->
     <style>
         /* ! tailwindcss v3.2.4 | MIT License | https://tailwindcss.com */
         *,
@@ -830,11 +825,13 @@
             }
         }
     </style>
+
 </head>
 
 <body class="antialiased">
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+
         @if (Route::has('login'))
             <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
                 @if (session()->exists(0))
@@ -872,48 +869,155 @@
                 </svg>
             </div>
 
-            <div class="mt-16">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                    @foreach ($donations as $donation)
-                        <a href="/donation/{{ $donation->id }}"
-                            class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <img src="{{ $donation->attributes->donation_img }}" alt="Donation Image">
-
-                                <div
-                                    class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                </div>
-                                @if ($donation->attributes->is_complete)
-                                    <span class="badge rounded-pill text-bg-success float-end">Complete</span>
-                                @else
-                                    <span class="badge rounded-pill text-bg-warning float-end">In Progress</span>
-                                @endif
-
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
-                                    {{ $donation->attributes->title }}
-                                </h2>
-                                <?php $result = ($donation->attributes->contributed_amount / $donation->attributes->target_amount) * 100;
-                                ?>
-                                <div class="progress mb-4 mt-5" role="progressbar" aria-label="Example 1px high"
-                                    aria-valuenow="{{ $result }}" aria-valuemin="0" aria-valuemax="100"
-                                    style="height: 1px">
-                                    <div class="progress-bar" style="width: {{ $result }}%"></div>
-                                </div>
-                                <p class="card-text mb-4"><small
-                                        class="fw-medium">{{ $donation->relationships->currency->symbol }}
-                                        {{ $donation->attributes->contributed_amount }} /
-                                        {{ $donation->attributes->target_amount }} gathered</small></p>
-
-                                <button type="button" class="btn btn-outline-success">View</button>
-                            </div>
-                        </a>
-                    @endforeach
+        <div class="row container mx-auto">
+            <h1 class="mt-6 mb-3 text-xl font-semibold text-gray-900 dark:text-white"> {{ $donation->attributes->title }}</h1>
+            <div class="col-sm-6 mb-3 mb-sm-0">
+                <div class="card text-bg-dark mb-4">
+                    <img src=" {{ $donation->attributes->donation_img }}" class="card-img" alt="Donation Image">
                 </div>
-                <a class="btn btn-success mt-5 container" href="{{route('donations')}}" role="button">View All</a>
+                <div class="row mb-4">
+                    <div class="col-sm-3">
+                        <img src="{{ $donation->attributes->donation_img }}" class=""
+                            style="height: 50px !important;width:50px !important;border-radius:70em !important;"
+                            alt="Profile Picture" />
+                    </div>
+                    <div class="col-sm-9">
+                        @if (session()->exists(0))
+                            @if (session(0)->id == $initiator_details->id)
+                                <p class="fw-medium">You organised this donation</p>
+                            @else
+                                <p class="fw-medium">{{ $initiator_details->name }} organised this donation</p>
+                            @endif
+                        @else
+                            <p class="fw-medium">{{ $initiator_details->name }} organised this donation</p>
+                        @endif
+
+                    </div>
+                </div>
+                <hr>
+                <div class="row mb-4">
+                    <div class="col-sm-6">
+                        @php
+                            $date = date('d/m/Y', strtotime($donation->attributes->created_at));
+                        @endphp
+                        <p>Created on {{ $date }}</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="fw-medium text-success"><span
+                                class="badge rounded-pill text-bg-success ">{{ $donation->relationships->category->name }}</span>
+                        </p>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row mb-4">
+                    <p>
+                        {{ $donation->attributes->description }}
+                    </p>
+                    @if (session()->exists(0))
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#donateModal"
+                            class="btn btn-outline-success">Donate</button>
+                    @else
+                        <p class="text-success">Please login to donate</p>
+                    @endif
+
+                </div>
+
+
+            </div>
+            <div class="col-sm-6">
+                <div class="card shadow p-3 mb-5 bg-body-tertiary rounded">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            {{ $donation->relationships->currency->symbol }}
+                            {{ $donation->attributes->contributed_amount }} raised out of
+                            {{ $donation->attributes->target_amount }}
+
+                            <div class="progress mb-4 mt-5" role="progressbar" aria-label="Example 1px high"
+                                aria-valuenow="{{ $progress }}" aria-valuemin="0" aria-valuemax="100"
+                                style="height: 1px">
+                                <div class="progress-bar" style="width: {{ $progress }}%"></div>
+                            </div>
+                        </h5>
+
+                        @if (session()->exists(0))
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#donateModal"
+                                class="btn btn-outline-success">Donate</button>
+                        @else
+                            <p class="text-success">Please login to donate</p>
+                        @endif
+                        @if ($unique_donators == 1 && $donators == 1)
+                            <p class="card-text mt-4 fw-medium text-success">{{ $unique_donators }} person donated,
+                                {{ $donators }} donation</p>
+                        @elseif($unique_donators == 1 && $donators > 1)
+                            <p class="card-text mt-4 fw-medium text-success">{{ $unique_donators }} person donated,
+                                {{ $donators }} donations</p>
+                        @else
+                            <p class="card-text mt-4 fw-medium text-success">{{ $unique_donators }} people donated,
+                                {{ $donators }} donations</p>
+                        @endif
+
+                        <hr>
+                        @if ($unique_donators == 0)
+                            <p class="card-text">No one has donated yet.</p>
+                        @else
+                            <ul class="list-group">
+                                @foreach ($donation->relationships->users as $user_data)
+                                    @if ($user_data->pivot->amount_contributed > 0)
+                                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                                            {{ $user_data->name }}
+                                            <span
+                                                class="badge bg-success rounded-pill">{{ $donation->relationships->currency->symbol }}
+                                                {{ $user_data->pivot->amount_contributed }}</span>
+                                        </li>
+                                    @endif
+                                @endforeach
+
+                            </ul>
+                        @endif
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="donateModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="donateModalLabel">Donate to
+                            {{ $donation->attributes->title }} </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('donate') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="user_id" value="{{ session(0)->id }}">
+                            <input type="hidden" name="donation_id" value="{{ $donation->id }}">
+                            <p class="text-muted">How much would you like to donate ? </p>
+                            <div class="mb-3">
+                                <label for="amount_contributed" class="form-label">Amount in
+                                    {{ $donation->relationships->currency->symbol }} </label>
+                                <input type="number" name="amount_contributed" class="form-control"
+                                    id="amount_contributed"
+                                    placeholder="{{ $donation->relationships->currency->symbol }} 0">
+                            </div>
+
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-success">Donate</button>
+                    </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>

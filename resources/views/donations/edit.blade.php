@@ -5,13 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Crowd Funding</title>
+    <title>Create Donation</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 
     <!-- Styles -->
     <style>
@@ -836,33 +836,24 @@
     <div
         class="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
         @if (Route::has('login'))
-            <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
-                @if (session()->exists(0))
-                    <a href="{{ route('home') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
-                    <a href="{{ route('my_donations') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">My
-                        Donations</a>
-                    <a href="{{ route('donation.create') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Create
-                        Donation</a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log
-                        in</a>
+        <div class="sm:fixed sm:top-0 sm:right-0 p-6 text-right z-10">
+            @if(session()->exists(0))
+                <a href="{{ route('home') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Home</a>
+                <a href="{{ route('my_donations') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">My Donations</a>
+                <a href="{{ route('donation.create') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Create Donation</a>
+            @else
+                <a href="{{ route('login') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Log in</a>
 
-                    @if (Route::has('register'))
-                        <a href="{{ route('register') }}"
-                            class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
-                    @endif
-
+                @if (Route::has('register'))
+                    <a href="{{ route('register') }}" class="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Register</a>
                 @endif
-                <a href="{{ route('donations') }}"
-                    class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Donate</a>
-            </div>
-        @endif
 
-        <div class="max-w-7xl mx-auto p-6 lg:p-8">
+            @endif
+            <a href="{{ route('donations') }}" class="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500">Donate</a>
+        </div>
+    @endif
+
+        <div class="max-w-12xl mx-auto p-6 lg:p-6">
             <div class="flex justify-center">
                 <svg viewBox="0 0 62 65" fill="none" xmlns="http://www.w3.org/2000/svg"
                     class="h-16 w-auto bg-gray-100 dark:bg-gray-900">
@@ -872,46 +863,95 @@
                 </svg>
             </div>
 
-            <div class="mt-16">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                    @foreach ($donations as $donation)
-                        <a href="/donation/{{ $donation->id }}"
-                            class="scale-100 p-6 bg-white dark:bg-gray-800/50 dark:bg-gradient-to-bl from-gray-700/50 via-transparent dark:ring-1 dark:ring-inset dark:ring-white/5 rounded-lg shadow-2xl shadow-gray-500/20 dark:shadow-none flex motion-safe:hover:scale-[1.01] transition-all duration-250 focus:outline focus:outline-2 focus:outline-red-500">
-                            <div>
-                                <img src="{{ $donation->attributes->donation_img }}" alt="Donation Image">
-
-                                <div
-                                    class="h-16 w-16 bg-red-50 dark:bg-red-800/20 flex items-center justify-center rounded-full">
-                                </div>
-                                @if ($donation->attributes->is_complete)
-                                    <span class="badge rounded-pill text-bg-success float-end">Complete</span>
-                                @else
-                                    <span class="badge rounded-pill text-bg-warning float-end">In Progress</span>
-                                @endif
-
-
-                                <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">
-                                    {{ $donation->attributes->title }}
-                                </h2>
-                                <?php $result = ($donation->attributes->contributed_amount / $donation->attributes->target_amount) * 100;
-                                ?>
-                                <div class="progress mb-4 mt-5" role="progressbar" aria-label="Example 1px high"
-                                    aria-valuenow="{{ $result }}" aria-valuemin="0" aria-valuemax="100"
-                                    style="height: 1px">
-                                    <div class="progress-bar" style="width: {{ $result }}%"></div>
-                                </div>
-                                <p class="card-text mb-4"><small
-                                        class="fw-medium">{{ $donation->relationships->currency->symbol }}
-                                        {{ $donation->attributes->contributed_amount }} /
-                                        {{ $donation->attributes->target_amount }} gathered</small></p>
-
-                                <button type="button" class="btn btn-outline-success">View</button>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-                <a class="btn btn-success mt-5 container" href="{{route('donations')}}" role="button">View All</a>
+            @if(session('donation_update_error'))
+            <div class="text-danger">
+                    {!! session('donation_update_error') !!}
             </div>
+
+            @endif
+
+           
+                <div class="card shadow p-3 mb-5 bg-body-tertiary rounded"  style="width: 50rem;">
+                    <div class="card-header">
+                        Update Donation {{$donation->attributes->title}}
+                    </div>
+                    <div class="card-body">
+                      <form action="{{route('donation.update',$donation->id) }}" method="POST">
+                        @method('PUT')
+                        @csrf
+                        {{-- @php
+                            $date = date("Y-m-d", strtotime($donation->attributes->created_at));
+                            echo $date;
+                        @endphp --}}
+                        
+                        <div class="mb-3">
+                            <label for="category" class="form-label text-capitalize">what is the category of your donation?</label>
+                            <select class="form-select" aria-label="Default select example" id="category" name="category_id">
+                                @foreach ($categories as $category)
+                                    @if ($category->id == $donation->attributes->category_id)
+                                    <option value="{{$category->id}}" selected>{{$category->attributes->name}}</option> 
+                                    @else
+                                    <option value="{{$category->id}}">{{$category->attributes->name}}</option>
+                                    @endif
+                                @endforeach
+                              </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="currency" class="form-label text-capitalize">in what currency should the donations be made?</label>
+                            <select class="form-select" aria-label="Default select example" id="currency" name="currency_id">
+                                @foreach ($currencies as $currency)
+                                    @if ( $currency->id == $donation->attributes->currency_id )
+                                        <option selected value="{{$currency->id}}">{{$currency->attributes->name}} ({{$currency->attributes->symbol}})</option>
+                                    @else
+                                        <option value="{{$currency->id}}">{{$currency->attributes->name}} ({{$currency->attributes->symbol}})</option>
+                                    @endif
+                                @endforeach
+                              </select>
+                          </div>
+                          <div class="mb-3">
+                            <label for="title" class="form-label text-capitalize">provide a title to your donation (Please be brief and precise) </label>
+                            <input type="text" name="title" class="form-control" id="title" value="{{ $donation->attributes->title}}">
+                          </div>
+                          <div class="mb-3">
+                            <label for="donation_img" class="form-label text-capitalize">provide a link to an image illustrating your donation </label>
+                            <input type="text" name="donation_img" class="form-control" id="donation_img" value="{{ $donation->attributes->donation_img}}">
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="description" class="form-label text-capitalize">provide a description of your donation, tell us why you are organising it</label>
+                            <textarea class="form-control" id="description" name="description"  rows="5" style="resize: none;">
+                                {{ $donation->attributes->description}}
+                            </textarea>
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="target_amount" class="form-label text-capitalize">what is your target amount for the donation? </label>
+                            <input type="number" name="target_amount" class="form-control" id="target_amount" value="{{ $donation->attributes->target_amount}}">
+                          </div>
+
+                          <div class="mb-3">
+                            <label for="type" class="form-label text-capitalize">for who is the donation?</label>
+                            <select class="form-select" aria-label="Default select example" id="type" name="type">
+                                @foreach ($donation_types as $type)
+                                @if ( $type == $donation->attributes->type )
+                                <option value="{{$type}}" class="text-capitalize" selected> {{$type}}</option>
+                                @else
+                                <option value="{{$type}}" class="text-capitalize"> {{$type}}</option>
+                                @endif
+                                    
+                                @endforeach
+                                
+                              </select>
+                          </div>
+
+                          <div class="mb-3">
+                            <button type="submit" class="btn btn-outline-success">Edit Donation</button>
+                          </div>
+
+                      </form>
+                    </div>
+                  </div>
+
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

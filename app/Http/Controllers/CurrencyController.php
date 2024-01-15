@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+//Models
+use App\Models\Currency;
+
+//Resource
+use App\Http\Resources\CurrencyResource;
 
 class CurrencyController extends Controller
 {
@@ -11,7 +16,7 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        //
+        return CurrencyResource::collection(Currency::all());
     }
 
     /**
