@@ -35,6 +35,14 @@ Given that the API and the app are in the same project, by default the API uses 
 3. Change ```DB_PORT``` to ```5432```
 4. Open the ```pgAdmin``` on ```127.0.0.1:5050```
 
+## How to use MySQL as a database
+
+1. Uncomment the MySQL configuration inside the ```docker-compose.yml``` including: ```db``` and ```phpMyAdmin```
+2. Copy ```.env.example``` to ```.env```
+3. Change ```DB_CONNECTION``` to ```mysql```
+4. Change ```DB_PORT``` to ```3306```
+5. Open the ```phpMyAdmin``` on ```127.0.0.1:3400```
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within this project, please send an e-mail to Mohamed Saphir via [mohamedsaphir@gmail.com](mailto:mohamedsaphir@gmail.com). All security vulnerabilities will be promptly addressed.

@@ -34,8 +34,8 @@ services:
     ports:
       - "5432:5432"
     environment: 
-      POSTGRES_DB: blog
-      POSTGRES_USER: root 
+      POSTGRES_DB: crowdfunding
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password 
 
   # Application Service
@@ -66,5 +66,5 @@ services:
     depends_on:
       - db 
     environment:
-      PGADMIN_DEFAULT_EMAIL: hanieasemi76@gmail.com
+      PGADMIN_DEFAULT_EMAIL: mohamedsaphir@gmail.com
       PGADMIN_DEFAULT_PASSWORD: password 
