@@ -70,7 +70,7 @@ class WebServiceAPI extends Model
     public function login($data)
     {
 
-        return $this->callAPI('POST', '127.0.0.2:8000/api/auth/login', $data);
+        return $this->callAPI('POST', '127.0.0.2:8080/api/auth/login', $data);
     }
 
     /**
@@ -80,38 +80,38 @@ class WebServiceAPI extends Model
     public function createDonation($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('POST', '127.0.0.2:8000/api/donations', $data, $bearerToken);
+        return $this->callAPI('POST', '127.0.0.2:8080/api/donations', $data, $bearerToken);
     }
 
     public function getDonations($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('GET', '127.0.0.2:8000/api/donations', $data, $bearerToken);
+        return $this->callAPI('GET', '127.0.0.2:8080/api/donations', $data, $bearerToken);
     }
     public function findDonation($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('GET', '127.0.0.2:8000/api/donations/' . $data, null, $bearerToken);
+        return $this->callAPI('GET', '127.0.0.2:8080/api/donations/' . $data, null, $bearerToken);
     }
     public function updateDonation($data, $id)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('PUT', '127.0.0.2:8000/api/donations/' . $id, $data, $bearerToken);
+        return $this->callAPI('PUT', '127.0.0.2:8080/api/donations/' . $id, $data, $bearerToken);
     }
     public function deleteDonation($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('DELETE', '127.0.0.2:8000/api/donations/' . $data, null, $bearerToken);
+        return $this->callAPI('DELETE', '127.0.0.2:8080/api/donations/' . $data, null, $bearerToken);
     }
     public function donate($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('POST', '127.0.0.2:8000/api/donation/donate', $data, $bearerToken);
+        return $this->callAPI('POST', '127.0.0.2:8080/api/donation/donate', $data, $bearerToken);
     }
     public function myDonations($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('GET', '127.0.0.2:8000/api/donations/my-donations/' . $data, null, $bearerToken);
+        return $this->callAPI('GET', '127.0.0.2:8080/api/donations/my-donations/' . $data, null, $bearerToken);
     }
 
     /**
@@ -120,7 +120,7 @@ class WebServiceAPI extends Model
     public function getCategories($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('GET', '127.0.0.2:8000/api/categories', $data, $bearerToken);
+        return $this->callAPI('GET', '127.0.0.2:8080/api/categories', $data, $bearerToken);
     }
 
 
@@ -130,6 +130,6 @@ class WebServiceAPI extends Model
     public function getCurrencies($data)
     {
         $bearerToken = session(0)->token;
-        return $this->callAPI('GET', '127.0.0.2:8000/api/currencies', $data, $bearerToken);
+        return $this->callAPI('GET', '127.0.0.2:8080/api/currencies', $data, $bearerToken);
     }
 }
