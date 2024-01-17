@@ -20,7 +20,7 @@ The app uses [Laravel Sanctum](https://laravel.com/docs/10.x/sanctum). In order 
 
 ## How to run Laravel Commands with Docker Compose
 
-1. ```cd src```
+1. ```cd web```
 2. ```docker-compose exec app php artisan {your command}``` 
 
 - Configure your .env file.
